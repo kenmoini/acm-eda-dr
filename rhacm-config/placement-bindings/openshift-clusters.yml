@@ -9,15 +9,15 @@ placementRef:
   apiGroup: cluster.open-cluster-management.io
   kind: Placement
 subjects:
-  - name: mc-clusteroperator-health
+  - name: health-clusteroperator
     apiGroup: policy.open-cluster-management.io
     kind: Policy
-  - name: mc-clusterversion-health
+  - name: health-clusterversion
     apiGroup: policy.open-cluster-management.io
     kind: Policy
-  - name: mc-machineconfigpool-health
+  - name: health-machineconfigpool
     apiGroup: policy.open-cluster-management.io
     kind: Policy
-  - name: mc-node-health
+  - name: health-node
     apiGroup: policy.open-cluster-management.io
     kind: Policy

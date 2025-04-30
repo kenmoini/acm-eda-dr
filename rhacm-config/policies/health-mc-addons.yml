@@ -2,7 +2,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
-  name: acm-managed-cluster-status
+  name: health-mc-addons
   namespace: open-cluster-management-policies
   annotations:
     policy.open-cluster-management.io/description: Raises policy violations for every unreachable addon
