@@ -26,31 +26,3 @@ spec:
                   name: does-not-exist
           remediationAction: inform
           severity: low
----
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Placement
-metadata:
-  name: failing-inform-placement
-  namespace: open-cluster-management-policies
-spec:
-  clusterSets:
-    - global
-  tolerations:
-    - key: cluster.open-cluster-management.io/unreachable
-      operator: Exists
-    - key: cluster.open-cluster-management.io/unavailable
-      operator: Exists
----
-apiVersion: policy.open-cluster-management.io/v1
-kind: PlacementBinding
-metadata:
-  name: failing-inform-placement
-  namespace: open-cluster-management-policies
-placementRef:
-  name: failing-inform-placement
-  apiGroup: cluster.open-cluster-management.io
-  kind: Placement
-subjects:
-  - name: failing-inform
-    apiGroup: policy.open-cluster-management.io
-    kind: Policy
