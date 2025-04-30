@@ -1,0 +1,30 @@
+---
+- name: Debug - Test Event
+  hosts: all
+  match_multiple_rules: true
+  execution_strategy: sequential
+  sources:
+    - name: Listen for alerts from Alert Manager
+      ansible.eda.alertmanager:
+        host: 0.0.0.0
+        port: 8000
+
+  rules:
+
+    - name: debug
+      condition: true
+      action:
+        debug:
+
+    - name: debug more lol
+      condition: true
+      action:
+        print_event:
+          pretty: true
+
+    - name: Debug Playbook
+      condition: event.alert.status == "firing"
+      action:
+        run_workflow_template:
+          name: "EDA-Test"
+          organization: "Default"

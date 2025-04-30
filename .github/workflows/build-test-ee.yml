@@ -1,0 +1,38 @@
+name: DE build and push - Test Events
+
+on:
+  pull_request:
+    paths:
+      - 'rulebooks/test-event/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'rulebooks/test-event/**'
+      - '.github/workflows/build-test-de.yml'
+
+  # Schedule workflow run at 00:00 on Sunday
+  schedule:
+    - cron: '0 0 * * 0'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  call-deploy-workflow:
+    uses: kenmoini/disconnected-openshift/.github/workflows/base-build-ee.yml@main
+    #uses: kenmoini/ansible-ee-builder/.github/workflows/build-ee-base.yml@main
+    with:
+      #ENABLE_REDHAT_REGISTRY: true
+      REGISTRY_HOSTNAME: quay.io
+      REGISTRY_PATH: kenmoini
+      EE_IMAGE_NAME: 'de-test-event'
+      EE_IMAGE_TAG: 'latest'
+      EE_FOLDER_NAME: 'rulebooks/test-event'
+      EE_FILE_NAME: decision-environment.yml
+    secrets:
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_TOKEN }}
+      #REDHAT_USERNAME: ${{ secrets.REDHAT_USERNAME }}
+      #REDHAT_PASSWORD: ${{ secrets.REDHAT_PASSWORD }}

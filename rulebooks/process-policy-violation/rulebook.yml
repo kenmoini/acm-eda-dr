@@ -1,0 +1,31 @@
+---
+- name: Automatic Remediation from AlertManager triggers from ACM for Policy Violations
+  hosts: all
+  match_multiple_rules: true
+  execution_strategy: sequential
+  sources:
+    - name: Listen for alerts from Alert Manager
+      ansible.eda.alertmanager:
+        host: 0.0.0.0
+        port: 8000
+
+  rules:
+
+    - name: debug more lol
+      condition: true
+      action:
+        debug:
+
+    - name: Policy Violation
+      condition: event.alert.status == "firing" and event.alert.labels.alertname in ["EDAViolatedPolicyReport"]
+      action:
+        run_workflow_template:
+          #name: "OpenShift-PolicyViolation"
+          name: "EDA-Test"
+          organization: "Default"
+
+    - name: debug lol
+      condition: true
+      action:
+        print_event:
+          pretty: true
