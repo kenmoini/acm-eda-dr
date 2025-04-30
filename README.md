@@ -115,5 +115,27 @@ oc apply -f rhacm-config/mco/thanos-rules.yml
 oc apply -f rhacm-config/cco/uiplugin.yml
 ```
 
+- Create some Placements: `oc apply -Rf rhacm-config/placements/`
+- Create some PlacementBindings: `oc apply -Rf rhacm-config/placement-bindings/`
 - Create some policies: `oc apply -Rf rhacm-config/policies/`
 
+---
+
+> Don't look below here, scratch pad until I know what to do with things
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: observability-metrics-custom-allowlist
+  namespace: open-cluster-management-observability
+data:
+  metrics_list.yaml: |
+    names:
+      - kube_persistentvolumeclaim_status_phase
+  uwl_metrics_list.yaml: |
+    names:
+      - kube_persistentvolumeclaim_status_phase
+
+
+```
