@@ -23,7 +23,7 @@ spec:
       annotations:
         argocd.argoproj.io/manifest-generate-paths: ".;.."
     spec:
-      project: cluster-dr
+      project: default
       sources:
         - repoURL: https://github.com/kenmoini/acm-eda-dr
           path: apps/mario

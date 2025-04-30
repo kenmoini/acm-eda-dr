@@ -9,35 +9,41 @@
     appPlacementKeyPrefix: placement
 
   tasks:
+  - name: Dump all vars
+    debug:
+      var: vars
 
-  - name: Loop through the offline cluster labels, find matching labels and get the list of applications
-  - name: DR Logic
-    block:
-      - name: Check for application needing DR (if appName.appGroupingKeySuffix is set)
-      - name: Check if this is the primary or secondary cluster (switch appName.appClusterTargetKeyPrefix)
-      - name: Check if the application is placed on this cluster (if appName.appPlacementKeyPrefix is set)
 
-      - name: Handle is this offline cluster is the Primary and we need to failover to the Secondary cluster
-        when:
-          - appDREnabled == true
-          - appClusterTarget == primary
-          - appPlacement is defined
-        block:
-          - name: Get the secondary cluster for this application
-          - name: Make sure it's online
-          - name: IF - the secondary cluster is ALSO offline - go scream at someone's pager a bit more
-          - name: ELSE - Add the placement label to the secondary cluster
-          - name: ELSE - Remove the placement label from the primary cluster
+  # - name: Loop through the offline cluster labels, find matching labels and get the list of applications
+  # - name: DR Logic
+  #   block:
+  #     - name: Check for application needing DR (if appName.appGroupingKeySuffix is set)
+  #     - name: Check if this is the primary or secondary cluster (switch appName.appClusterTargetKeyPrefix)
+  #     - name: Check if the application is placed on this cluster (if appName.appPlacementKeyPrefix is set)
 
-      - name: Handle a situation when this is the secondary cluster offline
-        when:
-          - appDREnabled == true
-          - appClusterTarget == secondary
-          - appPlacement is defined
-        block:
-          - name: Scream at someone's pager a bit more maybe
-          - name: Get the primary cluster for this application
-          - name: Make sure it's online
-          - name: IF - the primary cluster is ALSO offline - go scream at someone's pager a bit more
-          - name: ELSE - Add the placement label to the primary cluster
-          - name: ELSE - Remove the placement label from the secondary cluster
+  #     - name: Handle is this offline cluster is the Primary and we need to failover to the Secondary cluster
+  #       when:
+  #         - appDREnabled == true
+  #         - appClusterTarget == primary
+  #         - appPlacement is defined
+  #       block:
+  #         - name: Get the secondary cluster for this application
+  #         - name: Make sure it's online
+  #         - name: IF - the secondary cluster is ALSO offline - go scream at someone's pager a bit more
+  #         - name: ELSE - Add the placement label to the secondary cluster
+  #         - name: ELSE - Remove the placement label from the primary cluster
+  #         - name: ELSE - Do some GLB/DNS things
+
+  #     - name: Handle a situation when this is the secondary cluster offline
+  #       when:
+  #         - appDREnabled == true
+  #         - appClusterTarget == secondary
+  #         - appPlacement is defined
+  #       block:
+  #         - name: Scream at someone's pager a bit more maybe
+  #         - name: Get the primary cluster for this application
+  #         - name: Make sure it's online
+  #         - name: IF - the primary cluster is ALSO offline - go scream at someone's pager a bit more
+  #         - name: ELSE - Add the placement label to the primary cluster
+  #         - name: ELSE - Remove the placement label from the secondary cluster
+  #         - name: ELSE - Do some GLB/DNS things

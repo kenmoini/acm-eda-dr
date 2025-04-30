@@ -23,6 +23,7 @@ The built-in DR and application/cluster placement is very opinionated - sometime
   - ACM
   - AAP 2.5 (cluster-scoped)
   - OpenShift GitOps
+  - Cluster Observability Operator
 
 - Deploy a MultiClusterHub CR in Basic availabilityMode:
 
@@ -64,53 +65,16 @@ spec:
 ```
 
 - [Import Primary and Secondary clusters into RHACM](https://github.com/kenmoini/rhacm-importer/blob/main/openshift-rhacm-importer.yaml)
-- Enable ACM + GitOps integration:
+- Apply a few labels to the clusters:
+  - Primary Cluster:
+    - `target.mario.apps.acme.org=primary`
+    - `placement.mario.apps.acme.org=active`
+  - Secondary Cluster:
+    - `target.mario.apps.acme.org=secondary`
+  - Both Clusters:
+    - `mario.apps.acme.org=deploy`
 
-```yaml
----
-apiVersion: cluster.open-cluster-management.io/v1beta2
-kind: ManagedClusterSetBinding
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
-  name: global
-  namespace: openshift-gitops
-spec:
-  clusterSet: global
----
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Placement
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
-  name: gitops-clusters
-  namespace: openshift-gitops
-spec:
-  predicates:
-  - requiredClusterSelector:
-      labelSelector:
-        matchExpressions:
-        - key: vendor
-          operator: "In"
-          values:
-          - OpenShift
-          - Google
----
-apiVersion: apps.open-cluster-management.io/v1beta1
-kind: GitOpsCluster
-metadata:
-  name: gitops-clusters
-  namespace: openshift-gitops
-spec:
-  argoServer:
-    cluster: local-cluster
-    argoNamespace: openshift-gitops
-  placementRef:
-    kind: Placement
-    apiVersion: cluster.open-cluster-management.io/v1beta1
-    name: gitops-clusters
-    namespace: openshift-gitops
-```
+- Enable ACM + GitOps integration: `oc apply -f rhacm-config/gitops-integration.yml`
 
 > If you can't see the clusters in ArgoCD make sure you have admin access mapped and afterwards restart the dex pod
 
@@ -135,11 +99,21 @@ spec:
       g, gitops-admins, role:admin
 ```
 
-- Apply a few labels to the clusters:
-  - Primary Cluster:
-    - `target.mario.apps.acme.org=primary`
-    - `placement.mario.apps.acme.org=active`
-  - Secondary Cluster:
-    - `target.mario.apps.acme.org=secondary`
-  - Both Clusters:
-    - `mario.apps.acme.org=deploy`
+- Enable ACM O11y:
+
+```bash
+oc apply -f rhacm-config/mco/init.yml
+oc apply -f rhacm-config/mco/job.yml
+
+# Wait about 30s
+
+oc apply -f rhacm-config/mco/mco.yml
+
+# wait about 2min
+
+oc apply -f rhacm-config/mco/thanos-rules.yml
+oc apply -f rhacm-config/cco/uiplugin.yml
+```
+
+- Create some policies: `oc apply -Rf rhacm-config/policies/`
+
