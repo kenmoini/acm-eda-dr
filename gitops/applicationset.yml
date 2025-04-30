@@ -1,0 +1,42 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: mario-appset
+  namespace: openshift-gitops
+spec:
+  generators:
+    - matrix:
+        generators:
+          - clusters:
+              selector:
+                matchLabels:
+                  mario.apps.acme.org: deploy
+                  placement.mario.apps.acme.org: active
+          - list:
+              elements:
+              - appName: mario
+                namespace: mario
+  template:
+    metadata:
+      name: "{{name}}-{{appName}}"
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: ".;.."
+    spec:
+      project: cluster-dr
+      sources:
+        - repoURL: https://github.com/kenmoini/multiverse-of-multicluster-madness
+          path: applications/infinite-mario
+          targetRevision: main
+          kustomize: {}
+      destination:
+        name: "{{ name }}"
+        namespace: "{{ namespace }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 5

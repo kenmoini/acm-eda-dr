@@ -24,7 +24,19 @@ The built-in DR and application/cluster placement is very opinionated - sometime
   - AAP 2.5 (cluster-scoped)
   - OpenShift GitOps
 
-- Deploy a MultiClusterHub CR in Basic availabilityMode.
+- Deploy a MultiClusterHub CR in Basic availabilityMode:
+
+```yaml
+---
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+  name: multiclusterhub
+  namespace: open-cluster-management
+spec:
+  availabilityConfig: Basic
+```
+
 - Deploy a basic AAP 2.5 Plaform:
 
 ```yaml
@@ -102,7 +114,7 @@ spec:
 
 > If you can't see the clusters in ArgoCD make sure you have admin access mapped and afterwards restart the dex pod
 
-```yaml=
+```yaml
 ---
 kind: Group
 apiVersion: user.openshift.io/v1
@@ -123,4 +135,11 @@ spec:
       g, gitops-admins, role:admin
 ```
 
-
+- Apply a few labels to the clusters:
+  - Primary Cluster:
+    - `target.mario.apps.acme.org=primary`
+    - `placement.mario.apps.acme.org=active`
+  - Secondary Cluster:
+    - `target.mario.apps.acme.org=secondary`
+  - Both Clusters:
+    - `mario.apps.acme.org=deploy`
