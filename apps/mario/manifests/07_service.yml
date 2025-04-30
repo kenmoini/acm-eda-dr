@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mario
+  # namespace: mario
+  labels:
+    app: mario
+    app.kubernetes.io/component: web-app
+    app.kubernetes.io/instance: mario
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: mario
+    deploymentconfig: mario
+  type: ClusterIP
+  sessionAffinity: None
