@@ -1,0 +1,7 @@
+---
+- name: Toggle OpenShift Cluster DR Functions
+  hosts: all
+  vars:
+    appGroupingKeySuffix: apps.acme.org
+    appClusterTargetKeyPrefix: target
+    appPlacementKeyPrefix: placement
