@@ -1,4 +1,4 @@
-name: DE build and push - Process Policy Violation
+name: EE build and push - Process Policy Violation
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
       - main
     paths:
       - 'rulebooks/process-policy-violation/**'
-      - '.github/workflows/build-process-policy-violation-de.yml'
+      - '.github/workflows/build-process-policy-violation-ee.yml'
 
   # Schedule workflow run at 00:00 on Sunday
   schedule:
@@ -27,10 +27,10 @@ jobs:
       #ENABLE_REDHAT_REGISTRY: true
       REGISTRY_HOSTNAME: quay.io
       REGISTRY_PATH: kenmoini
-      EE_IMAGE_NAME: 'de-process-policy-violation'
+      EE_IMAGE_NAME: 'ee-process-policy-violation'
       EE_IMAGE_TAG: 'latest'
       EE_FOLDER_NAME: 'rulebooks/process-policy-violation'
-      EE_FILE_NAME: decision-environment.yml
+      EE_FILE_NAME: execution-environment.yml
     secrets:
       REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
       REGISTRY_PASSWORD: ${{ secrets.REGISTRY_TOKEN }}
