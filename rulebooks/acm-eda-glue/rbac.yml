@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eda-acm-connector
+secrets:
+  - name: eda-acm-connector-token
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: eda-acm-connector-token
+  annotations:
+    kubernetes.io/service-account.name: eda-acm-connector
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: eda-acm-connector-permissions
+rules:
+  - verbs:
+      - get
+      - list
+      - watch
+    apiGroups:
+      - ''
+    resources:
+      - nodes
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: eda-acm-connector
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: aap
+  - kind: ServiceAccount
+    name: default
+    namespace: ansible-automation-platform
+  - kind: ServiceAccount
+    name: eda-acm-connector
+    namespace: aap
+  - kind: ServiceAccount
+    name: eda-acm-connector
+    namespace: ansible-automation-platform
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: eda-acm-connector-permissions
