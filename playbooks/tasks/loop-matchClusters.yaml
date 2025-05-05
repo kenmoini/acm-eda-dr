@@ -9,7 +9,7 @@
   - l_item.value == "deploy"
   set_fact:
     matchedClusters: "{{ matchedClusters + [{'cluster': c_item.key, 'app': l_item.key}] }}"
-    detectedApplications: "{{ detectedApplications combine ( { l_item.key : [] } ) }}"
+    detectedApplications: "{{ detectedApplications | combine ( { l_item.key : [] } ) }}"
   loop: "{{ c_item.value | dict2items }}"
   loop_control:
     label: "{{ l_item.key }}"
