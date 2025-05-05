@@ -24,7 +24,19 @@
 
   - name: Run functions for a downed cluster - App DR
     when:
-      - ansible_eda.event.alert.labels.policy in ['open-cluster-management-policies.health-mc-addons']
+      - ansible_eda.event.alert.labels.policy in [
+          'open-cluster-management-policies.health-mc-addons',
+          'open-cluster-management-policies.health-mc-addons-foo-test',
+          'open-cluster-management-policies.health-mc-addons-gov-pol-frmwk',
+          'open-cluster-management-policies.health-mc-addons-app-mgr',
+          'open-cluster-management-policies.health-mc-addons-mgsvcact',
+          'open-cluster-management-policies.health-mc-addons-search',
+          'open-cluster-management-policies.health-mc-addons-o11y',
+          'open-cluster-management-policies.health-mc-addons-cluster-proxy',
+          'open-cluster-management-policies.health-mc-addons-policy-cntrlr',
+          'open-cluster-management-policies.health-mc-addons-cert-cntrlr',
+          'open-cluster-management-policies.health-mc-addons-wrk-mgr',
+        ]
     block:
       - name: Process Application DR
         ansible.builtin.include_tasks: toggleAppDR.yaml
