@@ -26,3 +26,8 @@
   debug:
     var: secondaryCluster
   when: secondaryCluster.resources | length > 0
+
+- name: Fail if there are not two clusters
+  fail:
+    msg: "There are not two clusters for {{ a_item.key }}"
+  when: primaryCluster.resources | length == 0 or secondaryCluster.resources | length == 0
