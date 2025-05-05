@@ -8,7 +8,13 @@ on:
     branches:
       - main
     paths:
-      - 'rulebooks/process-policy-violation/**'
+      - 'rulebooks/process-policy-violation/execution-environment.yml'
+      - 'rulebooks/process-policy-violation/inventory'
+      - 'rulebooks/process-policy-violation/ee-bindep.txt'
+      - 'rulebooks/process-policy-violation/ee-requirements.txt'
+      - 'rulebooks/process-policy-violation/ee-requirements.yml'
+      - 'rulebooks/process-policy-violation/ansible.cfg'
+      - 'rulebooks/process-policy-violation/root-ca/*.pem'
       - '.github/workflows/build-process-policy-violation-ee.yml'
 
   # Schedule workflow run at 00:00 on Sunday
