@@ -1,3 +1,7 @@
+- name: Set key vars
+  set_fact:
+    placementKey: "placement.{{ a_item.key }}"
+    targetKey: "target.{{ a_item.key }}"
 
 - name: Get the primary cluster for this application
   kubernetes.core.k8s_info:
@@ -42,7 +46,7 @@
   when: activeCluster.resources | length > 0
 
 - name: Fail if there are not two clusters
-  fail:
+  debug:
     msg: "There are not two clusters for {{ a_item.key }}"
   when: primaryCluster.resources | length == 0 or secondaryCluster.resources | length == 0
 
@@ -52,7 +56,7 @@
   - secondaryCluster.resources | length > 0
   - activeCluster.resources | length > 0
   - activeCluster.resources[0].metadata.name == primaryCluster.resources[0].metadata.name
-  - activeCluster.resources[0].metadata.labels["target.{{ a_item.key }}"] == "primary"
+  - activeCluster.resources[0].metadata.labels[targetKey] == "primary"
   kubernetes.core.k8s:
     state: present
     definition:
@@ -61,7 +65,7 @@
       metadata:
         name: "{{ primaryCluster.resources[0].metadata.name }}"
       labels:
-        placement.{{ a_item.key }}: inactive
+        "{{ placementKey }}": inactive
 
 - name: Toggle Secondary to Primary flip
   when:
@@ -69,7 +73,7 @@
   - secondaryCluster.resources | length > 0
   - activeCluster.resources | length > 0
   - activeCluster.resources[0].metadata.name == secondaryCluster.resources[0].metadata.name
-  - activeCluster.resources[0].metadata.labels["target.{{ a_item.key }}"] == "secondary"
+  - activeCluster.resources[0].metadata.labels[targetKey] == "secondary"
   kubernetes.core.k8s:
     state: present
     definition:
@@ -78,4 +82,4 @@
       metadata:
         name: "{{ secondaryCluster.resources[0].metadata.name }}"
       labels:
-        placement.{{ a_item.key }}: active
+        "{{ placementKey }}": active
