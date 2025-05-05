@@ -21,4 +21,6 @@
   - name: Run functions for a downed cluster - App DR
     when:
       - ansible_eda.event.alert.labels.policy in ['open-cluster-management-policies.health-mc-addons']
-    ansible.builtin.import_playbook: toggleAppDR.yaml
+    block:
+      - name: Process Application DR
+        ansible.builtin.import_playbook: toggleAppDR.yaml
