@@ -1,7 +1,7 @@
 ---
 - name: Set the placement key
   when:
-  - l_item.key is search("placement." + appGroupingKeySuffix)
+  - l_item.key is search("placement." + d_item.key)
   set_fact:
     placementKey: "{{ l_item.value }}"
   loop: "{{ c_item.value | dict2items }}"
