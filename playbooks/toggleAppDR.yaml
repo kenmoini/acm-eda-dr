@@ -36,6 +36,18 @@
   debug:
     msg: "{{ policyHealthMCAddonsFooTestUnhealthy }}"
 
+# Hacky slashy eda acm dr demo things
+# policyHealthMCAddonsFooTestUnreachable
+- name: Extract the cluster labels and name
+  set_fact:
+    clusterLabels: "{{ (clusterLabels | default({})) + { item.metadata.name: item.metadata.labels} }}"
+  loop: "{{ policyHealthMCAddonsFooTestUnreachable.resources }}"
+
+- name: Dump clusterLabels
+  debug:
+    msg: "{{ clusterLabels }}"
+
+
 # gov-pol-frmwk
 
 - name: Get the list of clusters that are offline - gov-pol-frmwk unreachable
