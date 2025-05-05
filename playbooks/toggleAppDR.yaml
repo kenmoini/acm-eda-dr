@@ -59,7 +59,7 @@
   - item.value == "deploy"
   set_fact:
     matchedClusters: "{{ matchedClusters | combine( { item.key: item.value } ) }}"
-  loop: "{{ clusterLabels }}"
+  loop: "{{ clusterLabels | dict2items }}"
 
 - name: Dump matchedClusters
   debug:
