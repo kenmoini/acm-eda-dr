@@ -1,11 +1,24 @@
 
+- name: Set fact
+  set_fact:
+    detectedApplications: {}
+
 - name: Loop through the clusters and their labels
   when:
   - l_item.key is search(appGroupingKeySuffix)
   - l_item.value == "deploy"
   set_fact:
     matchedClusters: "{{ matchedClusters + [{'cluster': c_item.key, 'app': l_item.key}] }}"
+    detectedApplications: "{{ detectedApplications combine ( { l_item.key : [] } ) }}"
   loop: "{{ c_item.value | dict2items }}"
   loop_control:
     label: "{{ l_item.key }}"
     loop_var: l_item
+
+- name: Dump matchedClusters
+  debug:
+    msg: "{{ matchedClusters }}"
+
+- name: Dump detectedApplications
+  debug:
+    msg: "{{ detectedApplications }}"

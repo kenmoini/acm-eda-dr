@@ -60,11 +60,16 @@
     label: "{{ c_item.key }}"
     loop_var: c_item
 
-
 - name: Dump matchedClusters
   debug:
     msg: "{{ matchedClusters }}"
 
+# - name: Loop through the matched cluster applications
+#   include_tasks: tasks/loop-matchApplications.yaml
+#   loop: "{{ matchedClusters }}"
+#   loop_control:
+#     label: "{{ m_item.app }} - {{ m_item.cluster }}"
+#     loop_var: m_item
 
 # gov-pol-frmwk
 
