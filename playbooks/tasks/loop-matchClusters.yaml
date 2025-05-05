@@ -3,7 +3,7 @@
   set_fact:
     detectedApplications: {}
 
-- name: Loop through the clusters and their labels
+- name: Loop through the cluster and their labels
   when:
   - l_item.key is search(appGroupingKeySuffix)
   - l_item.value == "deploy"
@@ -22,3 +22,10 @@
 - name: Dump detectedApplications
   debug:
     msg: "{{ detectedApplications }}"
+
+- name: Loop through the detectedApplications
+  loop: "{{ detectedApplications | dict2items }}"
+  loop_control:
+    label: "{{ d_item.key }}"
+    loop_var: d_item
+  include_tasks: tasks/loop-extractLabels.yaml
