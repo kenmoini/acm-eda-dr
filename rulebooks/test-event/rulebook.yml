@@ -26,5 +26,5 @@
       condition: event.alert.status == "firing"
       action:
         run_workflow_template:
-          name: "EDA-Test"
+          name: "EDA - Debug"
           organization: "Default"
