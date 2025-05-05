@@ -59,7 +59,7 @@
   - activeCluster.resources[0].metadata.labels[targetKey] == "primary"
   kubernetes.core.k8s:
     state: present
-    definition:
+    definition: |
       apiVersion: cluster.open-cluster-management.io/v1
       kind: ManagedCluster
       metadata:
@@ -76,7 +76,7 @@
   - activeCluster.resources[0].metadata.labels[targetKey] == "primary"
   kubernetes.core.k8s:
     state: present
-    definition:
+    definition: |
       apiVersion: cluster.open-cluster-management.io/v1
       kind: ManagedCluster
       metadata:
