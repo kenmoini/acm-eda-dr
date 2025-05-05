@@ -55,7 +55,7 @@
 
 - name: Loop through the clusters and their labels
   include_tasks: loop-matchClusters.yaml
-  loop: "{{ clusterLabels | dict2items }}"
+  loop: "{{ clusterLabels }}"
   loop_control:
     label: "{{ item.key }}"
     loop_var: c_item
