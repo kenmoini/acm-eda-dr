@@ -9,3 +9,16 @@
   - name: Dump all vars
     debug:
       var: vars
+
+  - name: Run functions for a downed cluster - Failing Inform
+    when:
+      - ansible_eda.event.alert.labels.policy in ['open-cluster-management-policies.failing-inform']
+    block:
+      - name: YEP
+        debug:
+          msg: "This is a Failing Inform policy violation - this is meant to be a test unless the 'i-do-not-exist' namespace is created on a cluster"
+
+  - name: Run functions for a downed cluster - App DR
+    when:
+      - ansible_eda.event.alert.labels.policy in ['open-cluster-management-policies.health-mc-addons']
+    ansible.builtin.include_playbook: toggleAppDR.yaml
