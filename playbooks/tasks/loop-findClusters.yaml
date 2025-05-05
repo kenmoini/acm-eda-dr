@@ -72,7 +72,7 @@
   - primaryCluster.resources | length > 0
   - secondaryCluster.resources | length > 0
   - activeCluster.resources | length > 0
-  - activeCluster.resources[0].metadata.name == secondaryCluster.resources[0].metadata.name
+  - activeCluster.resources[0].metadata.name != secondaryCluster.resources[0].metadata.name
   - activeCluster.resources[0].metadata.labels[targetKey] == "primary"
   kubernetes.core.k8s:
     state: present
