@@ -54,9 +54,12 @@
     msg: "{{ clusterLabels }}"
 
 - name: Loop through the clusters and their labels
+  when:
+  - item.key is match("*." + appGroupingKeySuffix)
+  - item.value == "deploy"
   set_fact:
     matchedClusters: "{{ matchedClusters | combine( { item.key: item.value } ) }}"
-  loop: "{{ clusterLabels | dict2items }}"
+  loop: "{{ clusterLabels }}"
 
 - name: Dump matchedClusters
   debug:
