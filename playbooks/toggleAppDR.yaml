@@ -37,11 +37,13 @@
     msg: "{{ policyHealthMCAddonsFooTestUnhealthy }}"
 
 # Hacky slashy eda acm dr demo things
+# policyHealthMCAddonsFooTestUnreachable
 
 - name: Extract the cluster labels and name
   set_fact:
     clusterLabels: {}
-# policyHealthMCAddonsFooTestUnreachable
+    matchedClusters: {}
+
 - name: Extract the cluster labels and name
   set_fact:
     clusterLabels: "{{ clusterLabels | combine( { item.metadata.name: item.metadata.labels } ) }}"
@@ -50,6 +52,15 @@
 - name: Dump clusterLabels
   debug:
     msg: "{{ clusterLabels }}"
+
+- name: Loop through the clusters and their labels
+  set_fact:
+    matchedClusters: "{{ matchedClusters | combine( { item.key: item.value } ) }}"
+  loop: "{{ clusterLabels | dict2items }}"
+
+- name: Dump matchedClusters
+  debug:
+    msg: "{{ matchedClusters }}"
 
 
 # gov-pol-frmwk
