@@ -1,9 +1,6 @@
 # This ansible playbook is triggered via EDA from Alertmanager alerts.
 # This has the context of the cluster that is down, so start there
 ---
-- name: Dump all vars
-  debug:
-    var: vars
 
 - name: Set some basic facts
   ansible.builtin.set_fact:
