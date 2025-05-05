@@ -5,6 +5,133 @@
   debug:
     var: vars
 
+- name: Set some basic facts
+  ansible.builtin.set_fact:
+    policyName: "{{ ansible_eda.event.alert.labels.policy | split('.') | last }}"
+
+- name: Dump policyName
+  debug:
+    msg: "{{ policyName }}"
+
+# foo
+- name: Get the list of clusters that are offline - foo unreachable
+  when: policyName == "health-mc-addons-foo-test"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/foo = unreachable
+  register: policyHealthMCAddonsFooTestUnreachable
+
+- name: Get the list of clusters that are offline - foo unhealthy
+  when: policyName == "health-mc-addons-foo-test"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/foo = unhealthy
+  register: policyHealthMCAddonsFooTestUnhealthy
+
+- name: Dump policyHealthMCAddonsFooTestUnreachable
+  debug:
+    msg: "{{ policyHealthMCAddonsFooTestUnreachable }}"
+- name: Dump policyHealthMCAddonsFooTestUnhealthy
+  debug:
+    msg: "{{ policyHealthMCAddonsFooTestUnhealthy }}"
+
+# gov-pol-frmwk
+
+- name: Get the list of clusters that are offline - gov-pol-frmwk unreachable
+  when: policyName == "health-mc-addons-gov-pol-frmwk"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-governance-policy-framework = unreachable
+
+- name: Get the list of clusters that are offline - gov-pol-frmwk unhealthy
+  when: policyName == "health-mc-addons-gov-pol-frmwk"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-governance-policy-framework = unhealthy
+
+# addon-application-manager
+
+- name: Get the list of clusters that are offline - app-mgr unreachable
+  when: policyName == "health-mc-addons-app-mgr"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-application-manager = unreachable
+
+- name: Get the list of clusters that are offline - app-mgr unhealthy
+  when: policyName == "health-mc-addons-app-mgr"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-application-manager = unhealthy
+
+# mgsvcact
+
+- name: Get the list of clusters that are offline - mgsvcact unreachable
+  when: policyName == "health-mc-addons-mgsvcact"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-managed-serviceaccount = unreachable
+
+- name: Get the list of clusters that are offline - mgsvcact unhealthy
+  when: policyName == "health-mc-addons-mgsvcact"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-managed-serviceaccount = unhealthy
+
+# addon-search-collector
+
+- name: Get the list of clusters that are offline - search unreachable
+  when: policyName == "health-mc-addons-search"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-search-collector = unreachable
+
+- name: Get the list of clusters that are offline - search unhealthy
+  when: policyName == "health-mc-addons-search"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-search-collector = unhealthy
+
+# o11y
+
+- name: Get the list of clusters that are offline - o11y unreachable
+  when: policyName == "health-mc-addons-o11y"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-observability-controller = unreachable
+
+- name: Get the list of clusters that are offline - o11y unhealthy
+  when: policyName == "health-mc-addons-o11y"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-observability-controller = unhealthy
+
+# cluster-proxy
+
+- name: Get the list of clusters that are offline - cluster-proxy unreachable
+  when: policyName == "health-mc-addons-cluster-proxy"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-cluster-proxy = unreachable
+
+- name: Get the list of clusters that are offline - cluster-proxy unhealthy
+  when: policyName == "health-mc-addons-cluster-proxy"
+  kubernetes.core.k8s_info:
+    kind: ManagedCluster
+    label_selectors:
+      - feature.open-cluster-management.io/addon-cluster-proxy = unhealthy
 
 # - name: Loop through the offline cluster labels, find matching labels and get the list of applications
 # - name: DR Logic
