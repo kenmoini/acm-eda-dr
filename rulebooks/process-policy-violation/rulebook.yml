@@ -21,7 +21,7 @@
       action:
         run_workflow_template:
           #name: "OpenShift-PolicyViolation"
-          name: "EDA-Test"
+          name: "ACM - EDA - Policy Violation"
           organization: "Default"
 
     - name: debug lol

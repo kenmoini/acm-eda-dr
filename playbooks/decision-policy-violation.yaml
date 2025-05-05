@@ -1,0 +1,11 @@
+# This ansible playbook is triggered via EDA from Alertmanager alerts.
+# This decides what to do based on what sort of Policy violation was detected.
+---
+- name: Decision - Policy Violation
+  hosts: all
+
+  tasks:
+
+  - name: Dump all vars
+    debug:
+      var: vars
