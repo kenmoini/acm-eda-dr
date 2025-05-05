@@ -44,7 +44,7 @@
 # policyHealthMCAddonsFooTestUnreachable
 - name: Extract the cluster labels and name
   set_fact:
-    clusterLabels: "{{ clusterLabels + combine( { item.metadata.name: item.metadata.labels } ) }}"
+    clusterLabels: "{{ clusterLabels | combine( { item.metadata.name: item.metadata.labels } ) }}"
   loop: "{{ policyHealthMCAddonsFooTestUnreachable.resources }}"
 
 - name: Dump clusterLabels
