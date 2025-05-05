@@ -55,7 +55,7 @@
 
 - name: Loop through the clusters and their labels
   when:
-  - item.key is match("*." + appGroupingKeySuffix)
+  - item.key is search(appGroupingKeySuffix)
   - item.value == "deploy"
   set_fact:
     matchedClusters: "{{ matchedClusters | combine( { item.key: item.value } ) }}"
