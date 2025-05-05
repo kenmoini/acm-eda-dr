@@ -4,7 +4,7 @@
   - l_item.key is search(appGroupingKeySuffix)
   - l_item.value == "deploy"
   set_fact:
-    matchedClusters: "{{ (matchedClusters[c_item.key] | default([])) + [l_item.key] }}"
+    matchedClusters: "{{ matchedClusters + [{'cluster': c_item.key, 'app': l_item.key}] }}"
   loop: "{{ c_item.value | dict2items }}"
   loop_control:
     label: "{{ l_item.key }}"

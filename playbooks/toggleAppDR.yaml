@@ -42,7 +42,7 @@
 - name: Extract the cluster labels and name
   set_fact:
     clusterLabels: {}
-    matchedClusters: {}
+    matchedClusters: []
 
 - name: Extract the cluster labels and name
   set_fact:
