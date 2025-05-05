@@ -17,6 +17,7 @@
 - name: Get the list of clusters that are offline - foo unreachable
   when: policyName == "health-mc-addons-foo-test"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/foo = unreachable
@@ -25,6 +26,7 @@
 - name: Get the list of clusters that are offline - foo unhealthy
   when: policyName == "health-mc-addons-foo-test"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/foo = unhealthy
@@ -42,6 +44,7 @@
 - name: Get the list of clusters that are offline - gov-pol-frmwk unreachable
   when: policyName == "health-mc-addons-gov-pol-frmwk"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-governance-policy-framework = unreachable
@@ -49,6 +52,7 @@
 - name: Get the list of clusters that are offline - gov-pol-frmwk unhealthy
   when: policyName == "health-mc-addons-gov-pol-frmwk"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-governance-policy-framework = unhealthy
@@ -58,6 +62,7 @@
 - name: Get the list of clusters that are offline - app-mgr unreachable
   when: policyName == "health-mc-addons-app-mgr"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-application-manager = unreachable
@@ -65,6 +70,7 @@
 - name: Get the list of clusters that are offline - app-mgr unhealthy
   when: policyName == "health-mc-addons-app-mgr"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-application-manager = unhealthy
@@ -74,6 +80,7 @@
 - name: Get the list of clusters that are offline - mgsvcact unreachable
   when: policyName == "health-mc-addons-mgsvcact"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-managed-serviceaccount = unreachable
@@ -81,6 +88,7 @@
 - name: Get the list of clusters that are offline - mgsvcact unhealthy
   when: policyName == "health-mc-addons-mgsvcact"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-managed-serviceaccount = unhealthy
@@ -90,6 +98,7 @@
 - name: Get the list of clusters that are offline - search unreachable
   when: policyName == "health-mc-addons-search"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-search-collector = unreachable
@@ -97,6 +106,7 @@
 - name: Get the list of clusters that are offline - search unhealthy
   when: policyName == "health-mc-addons-search"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-search-collector = unhealthy
@@ -106,6 +116,7 @@
 - name: Get the list of clusters that are offline - o11y unreachable
   when: policyName == "health-mc-addons-o11y"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-observability-controller = unreachable
@@ -113,6 +124,7 @@
 - name: Get the list of clusters that are offline - o11y unhealthy
   when: policyName == "health-mc-addons-o11y"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-observability-controller = unhealthy
@@ -122,6 +134,7 @@
 - name: Get the list of clusters that are offline - cluster-proxy unreachable
   when: policyName == "health-mc-addons-cluster-proxy"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-cluster-proxy = unreachable
@@ -129,6 +142,7 @@
 - name: Get the list of clusters that are offline - cluster-proxy unhealthy
   when: policyName == "health-mc-addons-cluster-proxy"
   kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
     kind: ManagedCluster
     label_selectors:
       - feature.open-cluster-management.io/addon-cluster-proxy = unhealthy
