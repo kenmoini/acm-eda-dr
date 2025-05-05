@@ -17,6 +17,15 @@
       - "target.{{ a_item.key }} = secondary"
   register: secondaryCluster
 
+- name: Get the active cluster for this application
+  kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
+    kind: ManagedCluster
+    label_selectors:
+      - "{{ a_item.key }} = deploy"
+      - "placement.{{ a_item.key }} = active"
+  register: activeCluster
+
 - name: dump primaryCluster
   debug:
     var: primaryCluster
@@ -27,7 +36,46 @@
     var: secondaryCluster
   when: secondaryCluster.resources | length > 0
 
+- name: dump activeCluster
+  debug:
+    var: activeCluster
+  when: activeCluster.resources | length > 0
+
 - name: Fail if there are not two clusters
   fail:
     msg: "There are not two clusters for {{ a_item.key }}"
   when: primaryCluster.resources | length == 0 or secondaryCluster.resources | length == 0
+
+- name: Toggle Primary to Secondary flip
+  when:
+  - primaryCluster.resources | length > 0
+  - secondaryCluster.resources | length > 0
+  - activeCluster.resources | length > 0
+  - activeCluster.resources[0].metadata.name == primaryCluster.resources[0].metadata.name
+  - activeCluster.resources[0].metadata.labels["target.{{ a_item.key }}"] == "primary"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: cluster.open-cluster-management.io/v1
+      kind: ManagedCluster
+      metadata:
+        name: "{{ primaryCluster.resources[0].metadata.name }}"
+      labels:
+        placement.{{ a_item.key }}: inactive
+
+- name: Toggle Secondary to Primary flip
+  when:
+  - primaryCluster.resources | length > 0
+  - secondaryCluster.resources | length > 0
+  - activeCluster.resources | length > 0
+  - activeCluster.resources[0].metadata.name == secondaryCluster.resources[0].metadata.name
+  - activeCluster.resources[0].metadata.labels["target.{{ a_item.key }}"] == "secondary"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: cluster.open-cluster-management.io/v1
+      kind: ManagedCluster
+      metadata:
+        name: "{{ secondaryCluster.resources[0].metadata.name }}"
+      labels:
+        placement.{{ a_item.key }}: active
