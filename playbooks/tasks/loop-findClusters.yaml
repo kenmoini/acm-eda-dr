@@ -64,8 +64,8 @@
       kind: ManagedCluster
       metadata:
         name: "{{ primaryCluster.resources[0].metadata.name }}"
-      labels:
-        "{{ placementKey }}": inactive
+        labels:
+          "{{ placementKey }}": inactive
 
 - name: Toggle Secondary to Primary flip
   when:
@@ -81,5 +81,5 @@
       kind: ManagedCluster
       metadata:
         name: "{{ secondaryCluster.resources[0].metadata.name }}"
-      labels:
-        "{{ placementKey }}": active
+        labels:
+          "{{ placementKey }}": active
