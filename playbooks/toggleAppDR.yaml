@@ -37,10 +37,14 @@
     msg: "{{ policyHealthMCAddonsFooTestUnhealthy }}"
 
 # Hacky slashy eda acm dr demo things
+
+- name: Extract the cluster labels and name
+  set_fact:
+    clusterLabels: {}
 # policyHealthMCAddonsFooTestUnreachable
 - name: Extract the cluster labels and name
   set_fact:
-    clusterLabels: "{{ clusterLabels | default({}) + combine( { item.metadata.name: item.metadata.labels } ) }}"
+    clusterLabels: "{{ clusterLabels + combine( { item.metadata.name: item.metadata.labels } ) }}"
   loop: "{{ policyHealthMCAddonsFooTestUnreachable.resources }}"
 
 - name: Dump clusterLabels
