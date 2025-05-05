@@ -26,6 +26,7 @@
 - name: Loop through the detectedApplications
   loop: "{{ detectedApplications | dict2items }}"
   loop_control:
-    label: "{{ d_item.key }}"
-    loop_var: d_item
-  include_tasks: tasks/loop-extractLabels.yaml
+    label: "{{ a_item.key }}"
+    loop_var: a_item
+  #include_tasks: tasks/loop-extractLabels.yaml
+  include_tasks: tasks/loop-findClusters.yaml

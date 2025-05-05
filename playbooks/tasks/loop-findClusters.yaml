@@ -1,0 +1,28 @@
+
+- name: Get the primary cluster for this application
+  kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
+    kind: ManagedCluster
+    label_selectors:
+      - "{{ a_item.key }} = deploy"
+      - "target.{{ a_item.key }} = primary"
+  register: primaryCluster
+
+- name: Get the secondary cluster for this application
+  kubernetes.core.k8s_info:
+    api_version: cluster.open-cluster-management.io/v1
+    kind: ManagedCluster
+    label_selectors:
+      - "{{ a_item.key }} = deploy"
+      - "target.{{ a_item.key }} = secondary"
+  register: secondaryCluster
+
+- name: dump primaryCluster
+  debug:
+    var: primaryCluster
+  when: primaryCluster.resources | length > 0
+
+- name: dump secondaryCluster
+  debug:
+    var: secondaryCluster
+  when: secondaryCluster.resources | length > 0
