@@ -3,6 +3,10 @@
 ---
 - name: Decision - Policy Violation
   hosts: all
+  vars:
+    appGroupingKeySuffix: apps.acme.org
+    appClusterTargetKeyPrefix: target
+    appPlacementKeyPrefix: placement
 
   tasks:
 
@@ -23,4 +27,4 @@
       - ansible_eda.event.alert.labels.policy in ['open-cluster-management-policies.health-mc-addons']
     block:
       - name: Process Application DR
-        ansible.builtin.import_playbook: toggleAppDR.yaml
+        ansible.builtin.include_tasks: toggleAppDR.yaml
