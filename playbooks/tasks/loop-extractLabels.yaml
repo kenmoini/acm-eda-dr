@@ -1,4 +1,9 @@
 ---
+- name: Set empty keys
+  set_fact:
+    placementKey: ""
+    targetKey: ""
+
 - name: Set the placement key
   when:
   - l_item.key is search("placement." + d_item.key)
@@ -9,6 +14,20 @@
     label: "{{ l_item.key }}"
     loop_var: l_item
 
+- name: Set the target key
+  when:
+  - l_item.key is search("target." + d_item.key)
+  set_fact:
+    targetKey: "{{ l_item.value }}"
+  loop: "{{ c_item.value | dict2items }}"
+  loop_control:
+    label: "{{ l_item.key }}"
+    loop_var: l_item
+
 - name: dump placementKey
   debug:
     msg: "{{ placementKey }}"
+
+- name: dump targetKey
+  debug:
+    msg: "{{ targetKey }}"
