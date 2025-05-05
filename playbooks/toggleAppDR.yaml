@@ -54,12 +54,12 @@
     msg: "{{ clusterLabels }}"
 
 - name: Loop through the clusters and their labels
-  when:
-  - item.key is search(appGroupingKeySuffix)
-  - item.value == "deploy"
-  set_fact:
-    matchedClusters: "{{ matchedClusters | combine( { item.key: item.value } ) }}"
+  include_tasks: loop-matchClusters.yaml
   loop: "{{ clusterLabels | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+    loop_var: c_item
+
 
 - name: Dump matchedClusters
   debug:

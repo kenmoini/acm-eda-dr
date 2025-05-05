@@ -1,0 +1,10 @@
+
+- name: Loop through the clusters and their labels
+  when:
+  - l_item.key is search(appGroupingKeySuffix)
+  set_fact:
+    matchedClusters: "{{ matchedClusters | combine( { l_item.key: l_item.value } ) }}"
+  loop: "{{ c_item | dict2items }}"
+  loop_control:
+    label: "{{ l_item.key }}"
+    loop_var: l_item
