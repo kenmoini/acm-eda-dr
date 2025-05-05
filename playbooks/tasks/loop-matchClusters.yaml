@@ -2,6 +2,7 @@
 - name: Loop through the clusters and their labels
   when:
   - l_item.key is search(appGroupingKeySuffix)
+  - l_item.value == "deploy"
   set_fact:
     matchedClusters: "{{ matchedClusters | combine( { l_item.key: l_item.value } ) }}"
   loop: "{{ c_item.value | dict2items }}"
